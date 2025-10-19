@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid 基本理解</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin: 30px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .example {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        /* 1. 基本的なグリッド */
+        .basic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .grid-item {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* 2. 異なる列サイズ */
+        .different-sizes {
+            display: grid;
+            grid-template-columns: 200px 1fr 100px;
+            gap: 15px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .different-sizes .grid-item {
+            background: #e74c3c;
+        }
+
+        /* 3. 行の指定 */
+        .with-rows {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 100px 150px 80px;
+            gap: 10px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .with-rows .grid-item {
+            background: #27ae60;
+        }
+
+        /* 4. グリッドエリア */
+        .grid-areas {
+            display: grid;
+            grid-template-areas:
+                "header header header"
+                "sidebar main main"
+                "footer footer footer";
+            grid-template-columns: 200px 1fr 1fr;
+            grid-template-rows: 80px 200px 60px;
+            gap: 10px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .header {
+            grid-area: header;
+            background: #9b59b6;
+        }
+
+        .sidebar {
+            grid-area: sidebar;
+            background: #f39c12;
+        }
+
+        .main {
+            grid-area: main;
+            background: #1abc9c;
+        }
+
+        .footer {
+            grid-area: footer;
+            background: #34495e;
+        }
+
+        /* 5. 自動配置 */
+        .auto-fit {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .auto-fit .grid-item {
+            background: #e67e22;
+        }
+
+        /* 6. アイテムの配置 */
+        .item-positioning {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .item-positioning .grid-item {
+            background: #8e44ad;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-3 {
+            grid-column: span 3;
+        }
+
+        .start-2 {
+            grid-column-start: 2;
+        }
+
+        /* 7. レスポンシブグリッド */
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .responsive-grid .grid-item {
+            background: #16a085;
+            min-height: 100px;
+        }
+
+        /* 説明用のスタイル */
+        .explanation {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>CSS Grid 基本理解ガイド</h1>
+
+        <div class="example">
+            <h2>1. 基本的なグリッド</h2>
+            <div class="explanation">
+                <strong>display: grid</strong> でグリッドコンテナを作成し、<strong>grid-template-columns</strong> で列を定義します。
+                <span class="highlight">1fr</span> は利用可能な空間を等分する単位です。
+            </div>
+            <div class="code">
+                /* 親要素（グリッドコンテナ） */
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+
+                /* 子要素（グリッドアイテム） */
+                background: #3498db;
+                color: white;
+                padding: 20px;
+                text-align: center;
+                border-radius: 5px;
+                font-weight: bold;
+            </div>
+            <div class="basic-grid">
+                <div class="grid-item">アイテム 1</div>
+                <div class="grid-item">アイテム 2</div>
+                <div class="grid-item">アイテム 3</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>2. 異なる列サイズ</h2>
+            <div class="explanation">
+                固定サイズ（200px）、可変サイズ（1fr）、固定サイズ（100px）を組み合わせて柔軟なレイアウトを作成できます。
+            </div>
+            <div class="code">
+                grid-template-columns: 200px 1fr 100px;
+            </div>
+            <div class="different-sizes">
+                <div class="grid-item">固定 200px</div>
+                <div class="grid-item">可変サイズ</div>
+                <div class="grid-item">固定 100px</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>3. 行の指定</h2>
+            <div class="explanation">
+                <strong>grid-template-rows</strong> で行の高さを指定できます。アイテムが3行に配置されています。
+            </div>
+            <div class="code">
+                grid-template-rows: 100px 150px 80px;
+            </div>
+            <div class="with-rows">
+                <div class="grid-item">1行目 100px</div>
+                <div class="grid-item">2行目 150px</div>
+                <div class="grid-item">3行目 80px</div>
+                <div class="grid-item">4行目 自動</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>4. グリッドエリア（レイアウト作成）</h2>
+            <div class="explanation">
+                <strong>grid-template-areas</strong> で視覚的にレイアウトを定義し、各アイテムに <strong>grid-area</strong> でエリア名を指定します。
+            </div>
+            <div class="code">
+                grid-template-areas:
+                "header header header"
+                "sidebar main main"
+                "footer footer footer";
+            </div>
+            <div class="grid-areas">
+                <div class="header">ヘッダー</div>
+                <div class="sidebar">サイドバー</div>
+                <div class="main">メインコンテンツ</div>
+                <div class="footer">フッター</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>5. 自動配置（レスポンシブ）</h2>
+            <div class="explanation">
+                <strong>repeat(auto-fit, minmax(200px, 1fr))</strong> で画面サイズに応じて自動的に列数が調整されます。
+                最小200px、最大は利用可能な空間を等分します。
+            </div>
+            <div class="code">
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            </div>
+            <div class="auto-fit">
+                <div class="grid-item">自動調整 1</div>
+                <div class="grid-item">自動調整 2</div>
+                <div class="grid-item">自動調整 3</div>
+                <div class="grid-item">自動調整 4</div>
+                <div class="grid-item">自動調整 5</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>6. アイテムの配置</h2>
+            <div class="explanation">
+                個別のアイテムに <strong>grid-column: span 2</strong> や <strong>grid-column-start: 2</strong> で配置を制御できます。
+            </div>
+            <div class="code">
+                .span-2 { grid-column: span 2; }
+                .start-2 { grid-column-start: 2; }
+            </div>
+            <div class="item-positioning">
+                <div class="grid-item">通常</div>
+                <div class="grid-item span-2">2列にまたがる</div>
+                <div class="grid-item">通常</div>
+                <div class="grid-item start-2">2列目から開始</div>
+                <div class="grid-item span-3">3列にまたがる</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>7. 実用的なレスポンシブグリッド</h2>
+            <div class="explanation">
+                実際のWebサイトでよく使われる、画面サイズに応じて自動調整されるグリッドレイアウトです。
+                ブラウザの幅を変更して動作を確認してください。
+            </div>
+            <div class="code">
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            </div>
+            <div class="responsive-grid">
+                <div class="grid-item">カード 1</div>
+                <div class="grid-item">カード 2</div>
+                <div class="grid-item">カード 3</div>
+                <div class="grid-item">カード 4</div>
+                <div class="grid-item">カード 5</div>
+                <div class="grid-item">カード 6</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>主要なプロパティ一覧</h2>
+            <div class="explanation">
+                <strong>コンテナ（親要素）のプロパティ：</strong><br>
+                • <span class="highlight">display: grid</span> - グリッドコンテナにする<br>
+                • <span class="highlight">grid-template-columns</span> - 列の定義<br>
+                • <span class="highlight">grid-template-rows</span> - 行の定義<br>
+                • <span class="highlight">grid-template-areas</span> - エリア名でレイアウト定義<br>
+                • <span class="highlight">gap</span> - グリッドアイテム間の間隔<br><br>
+
+                <strong>アイテム（子要素）のプロパティ：</strong><br>
+                • <span class="highlight">grid-column</span> - 列の範囲指定<br>
+                • <span class="highlight">grid-row</span> - 行の範囲指定<br>
+                • <span class="highlight">grid-area</span> - エリア名の指定<br>
+                • <span class="highlight">justify-self</span> - 水平方向の配置<br>
+                • <span class="highlight">align-self</span> - 垂直方向の配置
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
